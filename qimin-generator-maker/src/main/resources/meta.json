@@ -1,0 +1,58 @@
+{
+  "name": "generator",
+  "description": "ACM 示例模板生成器",
+  "basePackage": "com.qimin",
+  "version": "1.0",
+  "author": "qimin",
+  "createTime": "2024-11-18",
+  "fileConfig": {
+    "inputRootPath": "D:/newStage/qimin-generator/qimin-generator-demo-projects/acm-template-pro",
+    "outputRootPath": "D:/newStage/qimin-generator/generated",
+    "type": "dir",
+    "files": [
+      {
+        "inputPath": "src/com/qimin/acm/MainTemplate.java.ftl",
+        "outputPath": "src/com/qimin/acm/MainTemplate.java",
+        "type": "file",
+        "generateType": "dynamic"
+      },
+      {
+        "inputPath": ".gitignore",
+        "outputPath": ".gitignore",
+        "type": "file",
+        "generateType": "static"
+      },
+      {
+        "inputPath": "README.md",
+        "outputPath": "README.md",
+        "type": "file",
+        "generateType": "static"
+      }
+    ]
+  },
+  "modelConfig": {
+    "models": [
+      {
+        "fieldName": "loop",
+        "type": "boolean",
+        "description": "是否生成循环",
+        "defaultValue": false,
+        "abbr": "l"
+      },
+      {
+        "fieldName": "author",
+        "type": "String",
+        "description": "作者注释",
+        "defaultValue": "qiminmm",
+        "abbr": "a"
+      },
+      {
+        "fieldName": "outputText",
+        "type": "String",
+        "description": "输出信息",
+        "defaultValue": "sum = ",
+        "abbr": "o"
+      }
+    ]
+  }
+}
