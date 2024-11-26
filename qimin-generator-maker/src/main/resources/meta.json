@@ -1,13 +1,14 @@
 {
-  "name": "generator",
+  "name": "acm-generate-pro-generator",
   "description": "ACM 示例模板生成器",
   "basePackage": "com.qimin",
   "version": "1.0",
   "author": "qimin",
   "createTime": "2024-11-18",
   "fileConfig": {
-    "inputRootPath": "D:/newStage/qimin-generator/qimin-generator-demo-projects/acm-template-pro",
+    "inputRootPath": ".source/acm-template-pro",
     "outputRootPath": "D:/newStage/qimin-generator/generated",
+    "sourcesRootPath": "D:/newStage/qimin-generator/qimin-generator-demo-projects/acm-template-pro",
     "type": "dir",
     "files": [
       {

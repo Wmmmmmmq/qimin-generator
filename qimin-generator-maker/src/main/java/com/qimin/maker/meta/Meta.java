@@ -23,6 +23,7 @@ public class Meta {
     public static class FileConfig {
         private String inputRootPath;
         private String outputRootPath;
+        private String sourcesRootPath;
         private String type;
         private List<FileInfo> files;
 

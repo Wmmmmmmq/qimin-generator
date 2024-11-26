@@ -20,10 +20,14 @@ public class Main {
 
         //输出的根路径
         String projectPath = System.getProperty("user.dir");
-        String outputPath = projectPath + File.separator + "generated";
+        String outputPath = projectPath + File.separator + "generated" + File.separator + meta.getName();
         if (!FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
+
+        String sourcesRootPath = meta.getFileConfig().getSourcesRootPath();
+        String destPath = outputPath + File.separator + ".source";
+        FileUtil.copy(sourcesRootPath, destPath, false);
 
         //读取 resources 目录
         ClassPathResource classPathResource = new ClassPathResource("");
@@ -89,12 +93,31 @@ public class Main {
         outputFilePath = outputPath + File.separator + "pom.xml";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
-        JarGenerator.doGenerator(outputPath);
+        inputFilePath = inputResourcePath + File.separator + "templates/README.md.ftl";
+        outputFilePath = outputPath + File.separator + "README.md";
+        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
-        String shellOutputPath = outputPath +File.separator+"generator";
-        String jarName = String.format("%s-%s-jar-with-dependencies.jar",meta.getName(),meta.getVersion());
+        JarGenerator .doGenerator(outputPath);
+
+        String shellOutputFilePath = outputPath + File.separator + "generator";
+        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
-        ScriptGenerator.doGenerate(shellOutputPath,jarPath);
+        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
+
+
+        // 生成精简版的程序（产物包）
+        String distOutputPath = outputPath + "-dist";
+        // - 拷贝 jar 包
+        String targetAbsolutePath = distOutputPath + File.separator + "target";
+        FileUtil.mkdir(targetAbsolutePath);
+        String jarAbsolutePath = outputPath + File.separator + jarPath;
+        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
+        // - 拷贝脚本文件
+        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
+        // - 拷贝源模板文件
+        String sourceCopyDestPath = outputPath + File.separator + ".source";
+        FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
 
     }
 }
