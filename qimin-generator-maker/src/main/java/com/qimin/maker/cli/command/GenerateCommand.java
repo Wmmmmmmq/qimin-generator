@@ -1,7 +1,7 @@
 package com.qimin.maker.cli.command;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.qimin.maker.generator.file.MainGenerator;
+import com.qimin.maker.generator.file.FileGenerator;
 import com.qimin.maker.model.DataModel;
 import lombok.Data;
 import picocli.CommandLine.Command;
@@ -27,7 +27,7 @@ public class GenerateCommand implements Callable<Integer> {
     public Integer call() throws Exception {
         DataModel dataModel = new DataModel();
         BeanUtil.copyProperties(this, dataModel);
-        MainGenerator.doGenerate(dataModel);
+        FileGenerator.doGenerate(dataModel);
         return 0;
     }
 }

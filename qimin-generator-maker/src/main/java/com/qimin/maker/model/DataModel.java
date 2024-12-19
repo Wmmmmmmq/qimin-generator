@@ -22,4 +22,9 @@ public class DataModel {
      * 是否循环（开关）
      */
     private boolean loop;
+
+    /**
+     * 是否生成 .gitignore文件
+     */
+    private boolean needGit;
 }
