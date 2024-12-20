@@ -11,6 +11,7 @@ import com.qimin.maker.meta.enums.ModelTypeEnum;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 元信息校验
@@ -41,6 +42,17 @@ public class MetaValidator {
         }
 
         for (Meta.ModelConfig.ModelsInfo modelInfo : modelsInfoList) {
+            //为group 不校验
+            String groupkey = modelInfo.getGroupKey();
+            if (StrUtil.isNotEmpty(groupkey)) {
+                //生成中间参数
+                List<Meta.ModelConfig.ModelsInfo> subModelsInfoList = modelInfo.getModels();
+                String allArgsStr = modelInfo.getModels().stream()
+                        .map(subModelsInfo -> String.format("\"--%s\"", subModelsInfo.getFieldName()))
+                        .collect(Collectors.joining(","));
+                modelInfo.setAllArgsStr(allArgsStr);
+                continue;
+            }
             //输入路径默认值
             String fieldName = modelInfo.getFieldName();
             if (StrUtil.isEmpty(fieldName)) {
@@ -89,6 +101,12 @@ public class MetaValidator {
             return;
         }
         for (Meta.FileConfig.FileInfo fileInfo : fileInfoList) {
+            String type = fileInfo.getType();
+            //类型为group 不校验
+            if(FileTypeEnum.GROUP.getValue().equals(type)){
+                continue;
+            }
+
             //inputPath 必填
             String inputPath = fileInfo.getInputPath();
             if (StrUtil.isBlank(inputPath)) {
@@ -100,7 +118,6 @@ public class MetaValidator {
                 fileInfo.setOutputPath(inputPath);
             }
             //type 默认为inputPath有文件后缀（如：.java）为file，否则为dir
-            String type = fileInfo.getType();
             if (StrUtil.isBlank(type)) {
                 //无文件后缀
                 if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))) {
