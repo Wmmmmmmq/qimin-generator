@@ -3,6 +3,7 @@ package com.qimin.maker.generator.main;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ZipUtil;
 import com.qimin.maker.generator.JarGenerator;
 import com.qimin.maker.generator.ScriptGenerator;
 import com.qimin.maker.generator.file.DynamicFileGenerator;
@@ -44,12 +45,13 @@ public abstract class GenerateTemplate {
 
     /**
      * 生成精简版的程序
+     *
      * @param outputPath
      * @param sourceCopyDestPath
      * @param jarPath
      * @param shellOutputFilePath
      */
-    protected  void buildDist(String outputPath,String sourceCopyDestPath, String jarPath, String shellOutputFilePath) {
+    protected String    buildDist(String outputPath, String sourceCopyDestPath, String jarPath, String shellOutputFilePath) {
         // 生成精简版的程序（产物包）
         String distOutputPath = outputPath + "-dist";
         // - 拷贝 jar 包
@@ -61,15 +63,17 @@ public abstract class GenerateTemplate {
         FileUtil.copy(shellOutputFilePath, distOutputPath, true);
         // - 拷贝源模板文件
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
+        return distOutputPath;
     }
 
     /**
      * 封装脚本
+     *
      * @param outputPath
      * @param jarPath
      * @return
      */
-    protected  String shellOutputFilePath(String outputPath, String jarPath) {
+    protected String shellOutputFilePath(String outputPath, String jarPath) {
         String shellOutputFilePath = outputPath + File.separator + "generator";
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
         return shellOutputFilePath;
@@ -77,13 +81,14 @@ public abstract class GenerateTemplate {
 
     /**
      * 构建jar包
+     *
      * @param outputPath
      * @param meta
      * @return
      * @throws IOException
      * @throws InterruptedException
      */
-    protected  String buildJar(String outputPath, Meta meta) throws IOException, InterruptedException {
+    protected String buildJar(String outputPath, Meta meta) throws IOException, InterruptedException {
         JarGenerator.doGenerator(outputPath);
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
@@ -92,12 +97,13 @@ public abstract class GenerateTemplate {
 
     /**
      * 代码生成
+     *
      * @param meta
      * @param outputPath
      * @throws IOException
      * @throws TemplateException
      */
-    protected  void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
+    protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
         //读取 resources 目录
         ClassPathResource classPathResource = new ClassPathResource("");
         String inputResourcePath = classPathResource.getAbsolutePath();
@@ -169,15 +175,28 @@ public abstract class GenerateTemplate {
 
     /**
      * 复制原始文件
+     *
      * @param meta
      * @param outputPath
      * @return
      */
-    protected  String copySource(Meta meta, String outputPath) {
+    protected String copySource(Meta meta, String outputPath) {
         String sourcesRootPath = meta.getFileConfig().getSourcesRootPath();
         String destPath = outputPath + File.separator + ".source";
         FileUtil.copy(sourcesRootPath, destPath, false);
         return sourcesRootPath;
+    }
+
+    /**
+     * 制作压缩包
+     *
+     * @param outPutPath
+     * @return
+     */
+    protected String buildZip(String outPutPath) {
+        String zipPath = outPutPath + ".zip";
+        ZipUtil.zip(outPutPath,zipPath);
+        return zipPath;
     }
 
 }

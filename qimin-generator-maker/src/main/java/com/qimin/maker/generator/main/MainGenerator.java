@@ -6,8 +6,8 @@ package com.qimin.maker.generator.main;
 public class MainGenerator extends GenerateTemplate{
 
     @Override
-    protected void buildDist(String outputPath, String sourceCopyDestPath, String jarPath, String shellOutputFilePath){
-        System.out.println("不用再生成Dist版");
+    protected String buildDist(String outputPath, String sourceCopyDestPath, String jarPath, String shellOutputFilePath){
+        return "不用再生成Dist版";
     }
 
 }
