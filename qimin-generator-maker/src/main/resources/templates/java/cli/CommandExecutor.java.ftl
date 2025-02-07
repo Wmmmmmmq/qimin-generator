@@ -15,7 +15,8 @@ public class CommandExecutor implements Runnable{
         commandLine = new CommandLine(this)
                 .addSubcommand(new ConfigCommand())
                 .addSubcommand(new ListCommand())
-                .addSubcommand(new GenerateCommand());
+                .addSubcommand(new GenerateCommand())
+                .addSubcommand(new JsonGenerateCommand());
     }
 
 
