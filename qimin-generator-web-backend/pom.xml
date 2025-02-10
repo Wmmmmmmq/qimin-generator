@@ -19,6 +19,19 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <!-- 引入 maker 项目 -->
+        <dependency>
+            <groupId>com.qimin</groupId>
+            <artifactId>qimin-generator-maker</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- https://freemarker.apache.org/index.html -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.32</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
@@ -124,7 +137,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

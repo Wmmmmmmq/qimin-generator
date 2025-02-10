@@ -1,5 +1,5 @@
 package com.qimin.web.model.dto.generator;
-import com.qimin.web.meta.Meta;
+import com.qimin.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;

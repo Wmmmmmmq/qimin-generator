@@ -7,7 +7,7 @@ import com.qimin.web.meta.Meta.FileConfig;
 import com.qimin.web.meta.Meta.ModelConfig;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.qimin.web.meta.Meta;
+import com.qimin.maker.meta.Meta;
 import com.qimin.web.model.entity.Generator;
 import lombok.Data;
 
